@@ -165,6 +165,7 @@ def QuartilesAnomaly(data, name):
     
     # Вывод найденных выбросов
     print("Найденные выбросы:", data[outliers])
+    return outliers
 
 
 def ZScoreAnomaly(data, name):
@@ -193,7 +194,7 @@ def ZScoreAnomaly(data, name):
     
     # Вывод найденных выбросов
     print("Найденные выбросы:", data[outliers])
-
+    return outliers
 
 def ShowMedianMinMaxBarPlot(column, df):
     grouped = df.groupby(column)['CO2 Emissions(g/km)'].agg(['median', 'min', 'max'])
