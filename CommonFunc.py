@@ -118,7 +118,7 @@ def AnomalyOneCategoryVisualisation(xx, yy, name, conts):
 
     fig, axs = plt.subplots(1,len(conts))
     fig.set_figheight(4)
-    fig.set_figwidth(12)
+    fig.set_figwidth(15)
                     
     for i in range(0, len(conts)):
         clf = IsolationForest(contamination=conts[i], random_state=42) 
@@ -193,3 +193,20 @@ def ZScoreAnomaly(data, name):
     
     # Вывод найденных выбросов
     print("Найденные выбросы:", data[outliers])
+
+
+def ShowMedianMinMaxBarPlot(column, df):
+    grouped = df.groupby(column)['CO2 Emissions(g/km)'].agg(['median', 'min', 'max'])
+    
+    sorted_median = grouped.sort_values(by='median', ascending=False)
+    
+    sorted_median[column] = sorted_median.index
+    
+    sns.set_theme(rc={'figure.figsize':(15,8)})
+    sns.barplot(x=column, y='max', color='#bcbcbc', data=sorted_median, label = "max")
+    ax = sns.barplot(x=column, y='median', color='#5ea9ec', data=sorted_median, label = "median")
+    sns.barplot(x=column, y='min', color='#7ae990',  data=sorted_median, label = "min")
+    ax.bar_label(ax.containers[0],rotation=90)
+    plt.xticks(rotation=45, ha='right', fontsize=12)
+    plt.title('CO2 emission in g/km  vs  ' + column)
+    plt.show()
